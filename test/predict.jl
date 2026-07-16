@@ -1,4 +1,5 @@
 using LinearAlgebra
+using MCMCChains
 using SequentialSamplingModels
 using Test
 using Turing
@@ -23,7 +24,7 @@ data = rand(dist, n_sim)
 
 # estimate parameters
 lba_model = model(data; min_rt = minimum(data[2]))
-chain = sample(lba_model, NUTS(200, 0.65), 100)
+chain = sample(lba_model, NUTS(200, 0.65), 100, chain_type = Chains)
 
 # predict raw data
 predictions = predict(model(missing; min_rt = minimum(data[2])), chain)
